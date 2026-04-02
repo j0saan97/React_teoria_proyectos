@@ -1,0 +1,13 @@
+mi-app/
+├── public/
+│   └── index.html       # El "cascarón" vacío
+├── src/
+│   ├── components/      # Componentes reutilizables
+│   │   ├── Board.tsx
+│   │   └── Square.tsx
+│   ├── App.tsx          # Lógica principal (Game)
+│   ├── main.tsx         # Punto de entrada (Render)
+│   ├── index.css        # Estilos globales
+│   └── utils.ts         # Lógica lógica (calculateWinner)
+├── package.json
+└── tsconfig.json

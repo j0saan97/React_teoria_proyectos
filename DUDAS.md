@@ -3,46 +3,56 @@ En 2026, la industria estándar es .ts (TypeScript) o .tsx si contiene JSX.
 
 Por qué: TypeScript detecta errores de escritura antes de que ejecutes el código. Si estás aprendiendo, empezar con .js es más rápido, pero para cualquier proyecto serio o laboral, TypeScript es el requisito.
 
-2. Enrutamiento con React Router
-Sí, es la opción estándar, pero hay matices:
+¿Por qué TypeScript se convirtió en el estándar?
+Auto-documentación en tiempo real: No necesitas adivinar qué propiedades tiene un objeto o qué parámetros recibe una función. Tu editor (como VS Code) te lo dice al instante con el autocompletado (IntelliSense).
 
-Es fácil de implementar para rutas básicas (/home, /profile).
+Refactorización sin miedo: Si renombras una variable o cambias la estructura de un componente en una mini app, TypeScript te marcará en rojo exactamente en qué otros archivos se rompió algo antes de que abras el navegador.
 
-Sin embargo, hoy en día muchos usan Frameworks como Next.js, donde no tienes que configurar una biblioteca aparte; simplemente creas un archivo en una carpeta y la ruta se genera sola (File-system routing).
+Mantenibilidad en equipo: En proyectos donde trabajan varios desarrolladores (o cuando vuelves a revisar tu propio código meses después), las interfaces y tipos te dicen exactamente cómo debe fluir la información
+
+2. Enrutamiento next.js
+Enrutamiento automático: Creas una carpeta y la ruta nace sola (File-system Routing), sin configurar librerías externas.
+
+SEO perfecto y carga ultra rápida: Renderiza el contenido en el servidor (SSR) y manda HTML listo al navegador.
+
+Full-stack en un solo lugar: Puedes crear APIs internas (backend) y frontend en el mismo proyecto sin montar un servidor aparte.
+
+Rendimiento optimizado de caja: Optimiza imágenes, fuentes y código automáticamente para que la web sea extremadamente ligera.
+
+El estándar del mercado laboral: Es el framework de React más demandado por empresas para crear aplicaciones modernas y escalables.
+
+Server Components: Reduce la cantidad de JavaScript que descarga el usuario, ejecutando la lógica pesada directamente en el servidor
 
 3. ¿Clases en 2026?
-Rotundamente NO. Ni para componentes grandes ni pequeños.
+Quedaron 100% obsoletas: Desde 2019 los componentes funcionales con Hooks son el estándar único y absoluto de la industria.
 
-La realidad: Desde 2019 (Hooks), las clases están en desuso. Los componentes funcionales con Hooks son más fáciles de testear, ocupan menos código y tienen mejor rendimiento.
+Sin enredos con this: Las funciones evitan los confusos errores de contexto y bindings que provocaban las clases.
 
-Única excepción: Que estés manteniendo código "legado" de hace 7 años en una empresa.
+Lógica unificada y limpia: Con Hooks como useEffect organizas tu código en un solo bloque, sin dividirlo en ciclos de vida.
+
+Fáciles de reutilizar: Permiten crear Custom Hooks para compartir lógica entre componentes en un par de líneas.
+
+Cero clases en el día a día: Solo sobreviven en proyectos antiguos (legacy) o en librerías internas para manejo de errores (Error Boundaries).
 
 4. Flujo de datos: ¿Padre a hijo y viceversa?
-Aquí hay un truco conceptual:
+Padre a Hijo: El flujo principal pasa datos hacia abajo de forma directa a través de las props.
 
-Padre a Hijo: Directo a través de Props.
+Hijo a Padre: El hijo no envía datos directamente; ejecuta una función que el padre le pasó por props.
 
-Hijo a Padre: No pasan datos directamente. El padre le pasa una función al hijo, y el hijo la ejecuta enviando la información como argumento. El flujo sigue siendo unidireccional (el control lo tiene el padre), pero la información sube.
+El "Truco": Los datos suben como argumentos dentro de esa función, manteniendo el control en el padre.
 
-5. Evitar el paso por muchos elementos (Prop Drilling)
-Sí, es muy aconsejable evitarlo. A este problema se le llama Prop Drilling.
+Flujo Unidireccional: El estado siempre fluye en un solo sentido, evitando comportamientos impredecibles.
 
-Si el Abuelo le pasa datos al Nieto, pero el Padre no los necesita, el código se vuelve difícil de mantener.
+Escalabilidad: Si hay muchos niveles intermedios (Prop Drilling), se usan herramientas como Context API o Zustand.
 
-Solución: Para datos que muchos componentes necesitan (como el usuario logueado o el idioma), usamos el Context API de React o bibliotecas de estado global (como Zustand o Redux).
+5. Evitar el paso por muchos elementos (Prop Drilling):
+El Problema: Pasar props por componentes intermedios que no las usan (Prop Drilling) ensucia y fragiliza el código.
 
-6. porque tienen extension .html alguos proy descargados echos en react?
+La Regla: Si más de 3 niveles de componentes solo transportan datos sin usarlos, es momento de usar un estado global.
 
-Es probable que lo que estés viendo no sea un proyecto de React "estándar", sino una exportación de un editor online. Aquí la explicación rápida:
+Context API: La opción nativa de React perfecta para datos globales y estables como idioma o tema visual.
 
- -  ¿Por qué se llaman "Sandbox"?
-El término Sandbox (caja de arena) viene de herramientas como CodeSandbox.
+Zustand: La biblioteca moderna y ligera más recomendada hoy por su simplicidad y excelente rendimiento.
 
-Son entornos aislados para probar código rápidamente sin configurar nada en tu ordenador.
+El Resultado: Componentes más limpios, desacoplados y fáciles de mantener sin cadenas infinitas de props.
 
-Cuando descargas un ejemplo de ahí, el archivo suele mantener ese nombre por defecto para indicar que es un proyecto de prueba o "campo de juegos".
-
- - ¿Por qué tienen formato .html?
-Aquí hay dos posibilidades según lo que estés viendo:
-
-Opción A: El punto de entrada. Todo proyecto de React, al final, vive dentro de un único archivo HTML (normalmente llamado index.html). React "inyecta" todo el JavaScript dentro de un <div> de ese HTML. Sin ese archivo, el navegador no sabría qué mostrar.

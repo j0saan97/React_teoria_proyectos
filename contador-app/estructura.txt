@@ -1,6 +1,20 @@
 contador-app/
-├── src/
-│   ├── main.jsx
-│   ├── App.jsx
-│   └── components/
-│       └── Contador.jsx
+├── index.html
+├── package.json
+├── vite.config.ts
+├── public/
+│   ├── favicon.svg
+│   └── icons.svg
+└── src/
+    ├── main.tsx
+    ├── App.tsx
+    ├── App.css
+    ├── index.css
+    ├── components/
+    │   └── Contador.tsx
+    └── assets/
+        ├── hero.png
+        ├── react.svg
+        └── vite.svg
+
+se abre en http://localhost:5174/

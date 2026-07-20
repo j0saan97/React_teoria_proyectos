@@ -56,3 +56,33 @@ Zustand: La biblioteca moderna y ligera más recomendada hoy por su simplicidad 
 
 El Resultado: Componentes más limpios, desacoplados y fáciles de mantener sin cadenas infinitas de props.
 
+6. regla del "elemento raíz único" EN REACT:
+un elemeento react no puede devolver 2 elementos de mismo orden o jerarquia, es decir si los quieres devolver tienen q estar envueltos en 1 de orden superior como en este caso que estan en un div.
+
+Por qué pasa esto: Un componente React (o cualquier expresión JSX) se compila a una sola llamada React.createElement(). No puedes hacer un return de dos elementos "sueltos" al mismo nivel porque técnicamente estarías devolviendo dos valores, y una función solo puede devolver uno.
+
+// ❌ Esto da ERROR — dos elementos al mismo nivel, sin envolver
+return (
+  <p>Primer párrafo</p>
+  <p>Segundo párrafo</p>
+);
+
+// ✅ Envueltos en un div (como tu imagen)
+const myElement = (
+  <div>
+    <p>I am a paragraph.</p>
+    <p>I am a paragraph too.</p>
+  </div>
+);
+
+NOTA:
+
+no siempre hace falta que sea un <div> — a veces no quieres añadir un nodo extra al HTML final (por ejemplo, si te rompe un estilo de Flexbox/Grid del padre). Para eso existe el Fragment:
+
+// ✅ Fragment — agrupa sin añadir un elemento real al DOM
+return (
+  <>
+    <p>Primer párrafo</p>
+    <p>Segundo párrafo</p>
+  </>
+);

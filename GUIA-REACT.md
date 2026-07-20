@@ -1,7 +1,17 @@
 
 
 Esta es una ruta estructurada para dominar React, desde la web hasta el desarrollo móvil nativo, priorizando siempre la **documentación oficial** (que es excelente) y una progresión lógica de conceptos.
+ECOSITEMA REACT 2026:
 
+- Build tool: Vite
+- Routing: React Router
+- Estado global: Zustand (simple) o Redux Toolkit (proyectos grandes)
+- Data fetching / caché: TanStack Query
+- Formularios: React Hook Form
+- Estilos: Tailwind CSS (o CSS Modules)
+- Testing: Vitest + React Testing Library
+- Componentes UI: shadcn/ui (opcional, muy usado hoy)
+- Mobile (más adelante): Expo + React Navigation
 ---
 
 ## 1. Nivel Básico: Los Cimientos

@@ -1,0 +1,6 @@
+contador-app/
+├── src/
+│   ├── main.jsx
+│   ├── App.jsx
+│   └── components/
+│       └── Contador.jsx

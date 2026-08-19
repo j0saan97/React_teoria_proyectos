@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ContactForm } from "./ContactForm";
+import { ContactFormBasic } from "./ContactFormBasic";
 
 const meta = {
-  title: "Components/ContactForm",
-  component: ContactForm,
+  title: "Components/ContactFormBasic",
+  component: ContactFormBasic,
   parameters: {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof ContactForm>;
+} satisfies Meta<typeof ContactFormBasic>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    onSubmit: (data) => console.log("ContactForm submit:", data),
+    onSubmit: (data) => console.log("ContactFormBasic submit:", data),
   },
 };

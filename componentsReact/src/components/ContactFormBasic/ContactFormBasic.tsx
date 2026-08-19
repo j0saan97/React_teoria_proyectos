@@ -1,5 +1,6 @@
-import { useState, FormEvent, ChangeEvent } from "react";
-import "./ContactForm.css";
+import { useState } from "react";
+import type { FormEvent, ChangeEvent } from "react";
+import "./ContactFormBasic.css";
 
 export interface ContactFormData {
   nombre: string;
@@ -23,7 +24,7 @@ const INITIAL_DATA: ContactFormData = {
   email: "",
 };
 
-export function ContactForm({ onSubmit }: ContactFormProps) {
+export function ContactFormBasic({ onSubmit }: ContactFormProps) {
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_DATA);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -118,4 +119,4 @@ export function ContactForm({ onSubmit }: ContactFormProps) {
   );
 }
 
-export default ContactForm;
+export default ContactFormBasic;

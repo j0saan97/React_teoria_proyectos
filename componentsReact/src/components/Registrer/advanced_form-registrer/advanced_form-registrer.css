@@ -1,0 +1,110 @@
+.advanced-form-registrer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 460px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-family: system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+.advanced-form-registrer__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.advanced-form-registrer__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem 1rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+}
+
+.advanced-form-registrer__group legend {
+  padding: 0 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4f46e5;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.advanced-form-registrer__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.advanced-form-registrer__field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.advanced-form-registrer__field input,
+.advanced-form-registrer__field select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  background-color: #ffffff;
+  transition: border-color 0.15s ease;
+}
+
+.advanced-form-registrer__field input:focus,
+.advanced-form-registrer__field select:focus {
+  border-color: #4f46e5;
+}
+
+.advanced-form-registrer__phone-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  gap: 0.5rem;
+}
+
+.advanced-form-registrer__submit {
+  margin-top: 0.25rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.advanced-form-registrer__submit:hover {
+  background-color: #372fb0;
+}
+
+@media (max-width: 480px) {
+  .advanced-form-registrer {
+    max-width: 100%;
+    padding: 1.25rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .advanced-form-registrer__group {
+    padding: 0.6rem 0.75rem 0.85rem;
+  }
+
+  .advanced-form-registrer__phone-row {
+    grid-template-columns: 1fr;
+  }
+}

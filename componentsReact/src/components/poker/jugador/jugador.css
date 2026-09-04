@@ -1,0 +1,100 @@
+.jugador {
+  /* La mesa puede escalar todos los asientos a la vez cambiando esta
+     variable (p. ej. con clamp() según el tamaño de la mesa). */
+  width: 100%;
+  max-width: var(--jugador-ancho, 150px);
+  font-family: system-ui, sans-serif;
+}
+
+.jugador *,
+.jugador *::before,
+.jugador *::after {
+  box-sizing: border-box;
+}
+
+/* Hueco del jugador: marco tipo asiento de GG Poker. El contenido puede ser
+   la foto de perfil o, más adelante, sus cartas. */
+.jugador__hueco {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 3px;
+  border: 1px solid #a24b4b;
+  border-radius: 14px 14px 8px 8px;
+  background-color: #7a2f2f;
+}
+
+.jugador__imagen {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 11px 11px 5px 5px;
+}
+
+/* Time bank: círculo oscuro en la esquina inferior izquierda del hueco. */
+.jugador__timebank {
+  position: absolute;
+  left: -6px;
+  bottom: -12px;
+  z-index: 2;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.25rem;
+  border: 1px solid #000000;
+  border-radius: 999px;
+  background-color: #0d0d0d;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: calc(1.5rem - 2px);
+  text-align: center;
+}
+
+/* Bandera del país: misma altura que el time bank, en el lado derecho. */
+.jugador__bandera {
+  position: absolute;
+  right: -6px;
+  bottom: -10px;
+  z-index: 2;
+  width: 1.6rem;
+  height: 1.15rem;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.45);
+}
+
+.jugador__bandera img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placa de nombre + dinero. */
+.jugador__info {
+  position: relative;
+  z-index: 1;
+  margin-top: -2px;
+  padding: 0.5rem 0.4rem 0.35rem;
+  border-radius: 6px;
+  background-color: #161616;
+  text-align: center;
+}
+
+.jugador__nombre {
+  display: block;
+  overflow: hidden;
+  color: #f0f0f0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.jugador__dinero {
+  display: block;
+  margin-top: 0.1rem;
+  color: #37d67a;
+  font-size: 0.9rem;
+  font-weight: 700;
+}

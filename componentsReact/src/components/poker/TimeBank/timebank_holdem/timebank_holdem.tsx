@@ -10,24 +10,51 @@ function formatTiempo(totalSegundos: number) {
   return `${pad(h)}:${pad(m)}:${pad(s)}`;
 }
 
+type Fase = "idle" | "principal" | "extra";
+
 export interface TimebankHoldemProps {
   titulo?: string;
+  /**
+   * Segundos del contador extra que arranca automáticamente al agotarse el
+   * timebank principal. Por defecto 30, pero se puede modificar.
+   */
+  extraTimebank?: number;
 }
 
-export function TimebankHoldem({ titulo = "TIMEBANK" }: TimebankHoldemProps) {
+export function TimebankHoldem({
+  titulo = "TIMEBANK",
+  extraTimebank = 30,
+}: TimebankHoldemProps) {
   const [segundosInput, setSegundosInput] = useState(15);
   const [segundosRestantes, setSegundosRestantes] = useState(0);
-  const [activo, setActivo] = useState(false);
+  const [fase, setFase] = useState<Fase>("idle");
+  const [toastVisible, setToastVisible] = useState(false);
 
   useEffect(() => {
-    if (!activo) return;
+    if (fase === "idle") return;
+
     if (segundosRestantes <= 0) {
-      setActivo(false);
+      // Al agotarse el timebank principal, se inicia un contador extra.
+      if (fase === "principal" && extraTimebank > 0) {
+        setFase("extra");
+        setSegundosRestantes(extraTimebank);
+      } else {
+        // Se acabó el timebank (sin extra, o el extra ya ha terminado).
+        setFase("idle");
+        setToastVisible(true);
+      }
       return;
     }
+
     const id = setTimeout(() => setSegundosRestantes((s) => s - 1), 1000);
     return () => clearTimeout(id);
-  }, [activo, segundosRestantes]);
+  }, [fase, segundosRestantes, extraTimebank]);
+
+  useEffect(() => {
+    if (!toastVisible) return;
+    const id = setTimeout(() => setToastVisible(false), 3000);
+    return () => clearTimeout(id);
+  }, [toastVisible]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSegundosInput(Number(e.target.value));
@@ -36,17 +63,40 @@ export function TimebankHoldem({ titulo = "TIMEBANK" }: TimebankHoldemProps) {
   const handleProgramar = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (segundosInput <= 0) return;
+    setToastVisible(false);
     setSegundosRestantes(segundosInput);
-    setActivo(true);
+    setFase("principal");
   };
 
   return (
     <div className="timebank-holdem">
-      <div className="timebank-holdem__header">{titulo}</div>
+      <div className="timebank-holdem__header">
+        <span className="timebank-holdem__title">{titulo}</span>
+        {extraTimebank > 0 && (
+          <span
+            className="timebank-holdem__extra-badge"
+            title="Timebank extra disponible"
+            aria-label={`Timebank extra: ${extraTimebank} segundos`}
+          >
+            +{extraTimebank}s
+          </span>
+        )}
+      </div>
 
-      <div className="timebank-holdem__display">
+      <div
+        className={
+          "timebank-holdem__display" +
+          (fase === "extra" ? " timebank-holdem__display--extra" : "")
+        }
+      >
         {formatTiempo(segundosRestantes)}
       </div>
+
+      {fase === "extra" && (
+        <div className="timebank-holdem__extra-label">
+          TIME EXTRA · {extraTimebank}s
+        </div>
+      )}
 
       <form className="timebank-holdem__form" onSubmit={handleProgramar}>
         <input
@@ -61,6 +111,12 @@ export function TimebankHoldem({ titulo = "TIMEBANK" }: TimebankHoldemProps) {
           Programar
         </button>
       </form>
+
+      {toastVisible && (
+        <div className="timebank-holdem__toast" role="status">
+          Siguiente turno
+        </div>
+      )}
     </div>
   );
 }

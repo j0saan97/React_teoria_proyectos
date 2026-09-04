@@ -1,4 +1,5 @@
 .timebank-holdem {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -14,13 +15,34 @@
 }
 
 .timebank-holdem__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.5rem;
   background-color: #1c6b3a;
   color: #eaffef;
-  text-align: center;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.12em;
+}
+
+.timebank-holdem__title {
+  flex: 1;
+  text-align: center;
+}
+
+.timebank-holdem__extra-badge {
+  flex-shrink: 0;
+  min-width: 1.5rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background-color: #0d0d0d;
+  color: #ffd24a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
 }
 
 .timebank-holdem__display {
@@ -33,6 +55,22 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
+}
+
+.timebank-holdem__display--extra {
+  background-color: #2a0d0d;
+  color: #ff5a5a;
+  text-shadow: 0 0 10px rgba(255, 90, 90, 0.75);
+}
+
+.timebank-holdem__extra-label {
+  padding: 0.35rem 0.5rem;
+  background-color: #7a1f1f;
+  color: #ffe3e3;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
 }
 
 .timebank-holdem__form {
@@ -79,5 +117,33 @@
 @media (max-width: 360px) {
   .timebank-holdem__form {
     flex-direction: column;
+  }
+}
+
+.timebank-holdem__toast {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgba(13, 13, 13, 0.96);
+  color: #ffffff;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: timebank-holdem-toast-in 0.2s ease-out;
+}
+
+@keyframes timebank-holdem-toast-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

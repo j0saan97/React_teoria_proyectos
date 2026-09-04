@@ -1,0 +1,5 @@
+    INSTRUCCIONES PARA COMPONENTES:
+    
+    poker / timebank / timebank_holdem
+    requisitos timebank:
+- el toaste debe ocupar el mismo area que el time bank, para que quede limpio

@@ -1,5 +1,11 @@
     INSTRUCCIONES PARA COMPONENTES:
     
-    poker / timebank / timebank_holdem
-    requisitos timebank:
-- el toaste debe ocupar el mismo area que el time bank, para que quede limpio
+    rutarelativa: src\components\poker\mesa
+    requisitos MESA:
+    - DEBE SER RESPONSIVE--> USA UN TAMAÑO MINIMO, EN UNA MONITOR DE 27 PULGADAS DEBEN VERSE MINIMO 6 MESAS, SACA EL CALCULO DEL TAMAÑO MINIMO DE UNA MESA EN BASE A ESTA PREMISA
+    - RESPONSIVE: SI LA PANTALLA ES DE 40 PULGADAS SE ADAPTARÁ AL ESPACIO DISPONIBLE
+    - NO INSERTES NINGUN ELEMENTO EN LA MESA, NI JUGADORES NI TIME BANK NI NADA, SOLO LA MESA
+    - PREMISA PRINCIPAL: GUIATE EN LA IMAGEN QUE TE AÑADÍ AL CHAT
+   
+   
+

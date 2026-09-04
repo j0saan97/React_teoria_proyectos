@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: stretch;
   width: 100%;
-  max-width: 320px;
+  max-width: 180px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #0d0d0d;
@@ -46,14 +46,15 @@
 }
 
 .timebank-holdem__display {
-  padding: 1.25rem 0.5rem;
+  padding: 0.6rem 0.5rem;
   background-color: #000000;
   color: #ffffff;
   text-align: center;
   font-family: "Courier New", Courier, monospace;
-  font-size: clamp(2rem, 8vw, 2.75rem);
+  font-size: 2.25rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
   text-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
 }
 
@@ -71,53 +72,6 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-}
-
-.timebank-holdem__form {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.85rem;
-  background-color: #161616;
-}
-
-.timebank-holdem__input {
-  flex: 1;
-  min-width: 0;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid #3a3a3a;
-  border-radius: 6px;
-  background-color: #0d0d0d;
-  color: #ffffff;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
-
-.timebank-holdem__input:focus {
-  outline: none;
-  border-color: #1c6b3a;
-}
-
-.timebank-holdem__button {
-  flex-shrink: 0;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #1c6b3a;
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-}
-
-.timebank-holdem__button:hover {
-  background-color: #228247;
-}
-
-@media (max-width: 360px) {
-  .timebank-holdem__form {
-    flex-direction: column;
-  }
 }
 
 .timebank-holdem__toast {

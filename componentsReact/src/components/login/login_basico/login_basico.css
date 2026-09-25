@@ -47,6 +47,38 @@
   border-color: #4f46e5;
 }
 
+/* ---------- Contraseña con botón de ojo dentro del input ---------- */
+.login-basico__password {
+  position: relative;
+}
+
+.login-basico__password input {
+  padding-right: 2.75rem;
+}
+
+.login-basico__ojo {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  display: flex;
+  padding: 0.35rem;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: #777777;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.login-basico__ojo:hover,
+.login-basico__ojo[aria-pressed="true"] {
+  color: #4f46e5;
+}
+
+.login-basico__ojo:focus-visible {
+  outline: 2px solid #4f46e5;
+}
+
 .login-basico__submit {
   margin-top: 0.5rem;
   padding: 0.7rem 1rem;

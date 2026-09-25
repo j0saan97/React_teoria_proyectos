@@ -1,12 +1,18 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import "./ContactFormBasic.css";
+import { SelectorPais } from "../SelectorPais/SelectorPais";
+import { buscarPais } from "../SelectorPais/paises";
 
 export interface ContactFormData {
   nombre: string;
   apellidos: string;
+  /** Prefijo internacional, p. ej. "+34". */
+  prefijo: string;
   telefono: string;
   direccion: string;
+  ciudad: string;
+  /** Código ISO del país, p. ej. "es". */
   country: string;
   email: string;
 }
@@ -18,24 +24,40 @@ interface ContactFormProps {
 const INITIAL_DATA: ContactFormData = {
   nombre: "",
   apellidos: "",
+  prefijo: "+34",
   telefono: "",
   direccion: "",
-  country: "",
+  ciudad: "",
+  country: "es",
   email: "",
 };
 
 export function ContactFormBasic({ onSubmit }: ContactFormProps) {
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_DATA);
+  // País de la bandera del prefijo (varios países comparten prefijo: +1, +7...).
+  const [paisPrefijo, setPaisPrefijo] = useState(INITIAL_DATA.country);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  // Al elegir país, el prefijo del teléfono se pone el de ese país (se puede cambiar después).
+  const handlePrefijo = (codigo: string) => {
+    setPaisPrefijo(codigo);
+    setFormData((prev) => ({ ...prev, prefijo: buscarPais(codigo)?.prefijo ?? prev.prefijo }));
+  };
+
+  const handleCountry = (codigo: string) => {
+    setFormData((prev) => ({ ...prev, country: codigo }));
+    handlePrefijo(codigo);
+  };
+
+  const handleSubmit =(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit?.(formData);
     setFormData(INITIAL_DATA);
+    setPaisPrefijo(INITIAL_DATA.country);
   };
 
   return (
@@ -46,6 +68,7 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           id="nombre"
           name="nombre"
           type="text"
+          placeholder="Ej.: María"
           value={formData.nombre}
           onChange={handleChange}
           required
@@ -58,6 +81,7 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           id="apellidos"
           name="apellidos"
           type="text"
+          placeholder="Ej.: García López"
           value={formData.apellidos}
           onChange={handleChange}
           required
@@ -66,14 +90,25 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
 
       <div className="contact-form__field">
         <label htmlFor="telefono">Teléfono</label>
-        <input
-          id="telefono"
-          name="telefono"
-          type="tel"
-          value={formData.telefono}
-          onChange={handleChange}
-          required
-        />
+        <div className="contact-form__telefono">
+          <SelectorPais
+            id="prefijo"
+            modo="prefijo"
+            aria-label={`Prefijo telefónico: ${formData.prefijo}`}
+            value={paisPrefijo}
+            onChange={handlePrefijo}
+          />
+          <input
+            id="telefono"
+            name="telefono"
+            type="tel"
+            inputMode="tel"
+            placeholder="Ej.: 600 123 456"
+            value={formData.telefono}
+            onChange={handleChange}
+            required
+          />
+        </div>
       </div>
 
       <div className="contact-form__field">
@@ -82,6 +117,7 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           id="direccion"
           name="direccion"
           type="text"
+          placeholder="Ej.: Calle Mayor 12, 3º B"
           value={formData.direccion}
           onChange={handleChange}
           required
@@ -89,15 +125,21 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
       </div>
 
       <div className="contact-form__field">
-        <label htmlFor="country">País</label>
+        <label htmlFor="ciudad">Ciudad</label>
         <input
-          id="country"
-          name="country"
+          id="ciudad"
+          name="ciudad"
           type="text"
-          value={formData.country}
+          placeholder="Ej.: Madrid"
+          value={formData.ciudad}
           onChange={handleChange}
           required
         />
+      </div>
+
+      <div className="contact-form__field">
+        <label htmlFor="country">País</label>
+        <SelectorPais id="country" modo="pais" value={formData.country} onChange={handleCountry} />
       </div>
 
       <div className="contact-form__field">
@@ -106,6 +148,7 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           id="email"
           name="email"
           type="email"
+          placeholder="Ej.: maria@correo.com"
           value={formData.email}
           onChange={handleChange}
           required

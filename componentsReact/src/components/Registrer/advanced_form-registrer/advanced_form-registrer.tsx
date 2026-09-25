@@ -1,22 +1,49 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import "./advanced_form-registrer.css";
+import { SelectorPais } from "../../FORMs/SelectorPais/SelectorPais";
+import { buscarPais } from "../../FORMs/SelectorPais/paises";
 
-const PREFIJOS = [
-  { code: "+34", label: "+34 España" },
-  { code: "+1", label: "+1 EEUU/Canadá" },
-  { code: "+52", label: "+52 México" },
-  { code: "+54", label: "+54 Argentina" },
-  { code: "+57", label: "+57 Colombia" },
-  { code: "+56", label: "+56 Chile" },
-  { code: "+51", label: "+51 Perú" },
-  { code: "+598", label: "+598 Uruguay" },
-  { code: "+44", label: "+44 Reino Unido" },
-  { code: "+33", label: "+33 Francia" },
-  { code: "+49", label: "+49 Alemania" },
-  { code: "+39", label: "+39 Italia" },
-  { code: "+55", label: "+55 Brasil" },
-];
+/** Input de contraseña con un botón de ojo para mostrar u ocultar lo escrito. */
+function CampoContrasena(props: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}) {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="advanced-form-registrer__field">
+      <label htmlFor={props.id}>{props.label}</label>
+      <div className="advanced-form-registrer__password">
+        <input
+          id={props.id}
+          name={props.id}
+          type={visible ? "text" : "password"}
+          placeholder="••••••••"
+          value={props.value}
+          onChange={props.onChange}
+          autoComplete="new-password"
+          required
+        />
+        <button
+          type="button"
+          className="advanced-form-registrer__ojo"
+          aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
+          aria-pressed={visible}
+          onClick={() => setVisible(!visible)}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+            <circle cx="12" cy="12" r="3" />
+            {visible && <path d="M3 3l18 18" />}
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export interface AdvancedFormRegistrerData {
   nombre: string;
@@ -25,6 +52,7 @@ export interface AdvancedFormRegistrerData {
   email: string;
   prefijo: string;
   telefono: string;
+  calle: string;
   ciudad: string;
   pais: string;
   usuario: string;
@@ -41,8 +69,9 @@ const INITIAL_DATA: AdvancedFormRegistrerData = {
   apellidos: "",
   fechaNacimiento: "",
   email: "",
-  prefijo: PREFIJOS[0].code,
+  prefijo: "+34",
   telefono: "",
+  calle: "",
   ciudad: "",
   pais: "",
   usuario: "",
@@ -52,18 +81,24 @@ const INITIAL_DATA: AdvancedFormRegistrerData = {
 
 export function AdvancedFormRegistrer({ onSubmit }: AdvancedFormRegistrerProps) {
   const [formData, setFormData] = useState<AdvancedFormRegistrerData>(INITIAL_DATA);
+  // País de la bandera del prefijo (varios países comparten prefijo: +1, +7...).
+  const [paisPrefijo, setPaisPrefijo] = useState("es");
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlePrefijo = (codigo: string) => {
+    setPaisPrefijo(codigo);
+    setFormData((prev) => ({ ...prev, prefijo: buscarPais(codigo)?.prefijo ?? prev.prefijo }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit?.(formData);
     setFormData(INITIAL_DATA);
+    setPaisPrefijo("es");
   };
 
   return (
@@ -135,20 +170,13 @@ export function AdvancedFormRegistrer({ onSubmit }: AdvancedFormRegistrerProps) 
         <div className="advanced-form-registrer__field">
           <label htmlFor="telefono">Teléfono</label>
           <div className="advanced-form-registrer__phone-row">
-            <select
+            <SelectorPais
               id="prefijo"
-              name="prefijo"
-              value={formData.prefijo}
-              onChange={handleChange}
-              autoComplete="tel-country-code"
-              aria-label="Prefijo telefónico"
-            >
-              {PREFIJOS.map((p) => (
-                <option key={p.code} value={p.code}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
+              modo="prefijo"
+              aria-label={`Prefijo telefónico: ${formData.prefijo}`}
+              value={paisPrefijo}
+              onChange={handlePrefijo}
+            />
             <input
               id="telefono"
               name="telefono"
@@ -165,6 +193,20 @@ export function AdvancedFormRegistrer({ onSubmit }: AdvancedFormRegistrerProps) 
 
       <fieldset className="advanced-form-registrer__group">
         <legend>Ubicación</legend>
+
+        <div className="advanced-form-registrer__field">
+          <label htmlFor="calle">Calle</label>
+          <input
+            id="calle"
+            name="calle"
+            type="text"
+            placeholder="Calle Mayor 12, 3º B"
+            value={formData.calle}
+            onChange={handleChange}
+            autoComplete="street-address"
+            required
+          />
+        </div>
 
         <div className="advanced-form-registrer__field">
           <label htmlFor="ciudad">Ciudad</label>
@@ -212,33 +254,13 @@ export function AdvancedFormRegistrer({ onSubmit }: AdvancedFormRegistrerProps) 
           />
         </div>
 
-        <div className="advanced-form-registrer__field">
-          <label htmlFor="contrasena">Contraseña</label>
-          <input
-            id="contrasena"
-            name="contrasena"
-            type="password"
-            placeholder="••••••••"
-            value={formData.contrasena}
-            onChange={handleChange}
-            autoComplete="new-password"
-            required
-          />
-        </div>
-
-        <div className="advanced-form-registrer__field">
-          <label htmlFor="confirmarContrasena">Confirmar contraseña</label>
-          <input
-            id="confirmarContrasena"
-            name="confirmarContrasena"
-            type="password"
-            placeholder="••••••••"
-            value={formData.confirmarContrasena}
-            onChange={handleChange}
-            autoComplete="new-password"
-            required
-          />
-        </div>
+        <CampoContrasena id="contrasena" label="Contraseña" value={formData.contrasena} onChange={handleChange} />
+        <CampoContrasena
+          id="confirmarContrasena"
+          label="Confirmar contraseña"
+          value={formData.confirmarContrasena}
+          onChange={handleChange}
+        />
       </fieldset>
 
       <button type="submit" className="advanced-form-registrer__submit">

@@ -1,0 +1,116 @@
+/* ---------- Selector de país / prefijo con bandera ---------- */
+.selector-pais {
+  position: relative;
+}
+
+.selector-pais__boton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  background: #ffffff;
+  font: inherit;
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.selector-pais__boton:focus-visible,
+.selector-pais__boton[aria-expanded="true"] {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+/* Flecha del desplegable */
+.selector-pais__boton::after {
+  content: "";
+  margin-left: auto;
+  border: 5px solid transparent;
+  border-top-color: #666666;
+  border-bottom: 0;
+}
+
+.selector-pais__texto {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selector-pais .fi {
+  flex-shrink: 0;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.selector-pais__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  min-width: 16rem;
+  padding: 0.5rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.selector-pais__buscar {
+  width: 100%;
+  margin-bottom: 0.4rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.selector-pais__buscar:focus {
+  border-color: #4f46e5;
+}
+
+.selector-pais__lista {
+  max-height: 15rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.selector-pais__lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.selector-pais__lista li:hover,
+.selector-pais__lista li:focus-visible {
+  background: #eef2ff;
+  outline: none;
+}
+
+.selector-pais__lista li[aria-selected="true"] {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.selector-pais__prefijo {
+  margin-left: auto;
+  color: #666666;
+  font-variant-numeric: tabular-nums;
+}
+
+.selector-pais__vacio {
+  color: #888888;
+  cursor: default !important;
+}

@@ -31,8 +31,23 @@
   transition: border-color 0.15s ease;
 }
 
+.contact-form__field input::placeholder {
+  color: #9ca3af;
+}
+
 .contact-form__field input:focus {
   border-color: #4f46e5;
+}
+
+/* ---------- Teléfono: prefijo + número en la misma fila ---------- */
+.contact-form__telefono {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.contact-form__telefono input {
+  flex: 1;
+  min-width: 0;
 }
 
 .contact-form__submit {

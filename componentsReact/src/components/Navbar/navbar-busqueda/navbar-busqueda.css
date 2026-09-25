@@ -1,0 +1,151 @@
+/* ---------- 1. Clásico: la navbar de Bootstrap tal cual (solo texto en el botón) ---------- */
+.navbar-busqueda--clasico .navbar-busqueda__lupa {
+  display: none;
+}
+
+/* ---------- 2. Moderno: fondo blanco con sombra, enlaces en píldora y buscador redondo ---------- */
+.navbar-busqueda--moderno {
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-busqueda--moderno .navbar-brand {
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.navbar-busqueda--moderno .nav-link {
+  border-radius: 999px;
+  padding-inline: 0.9rem !important;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.navbar-busqueda--moderno .nav-link:hover,
+.navbar-busqueda--moderno .nav-link.show {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.navbar-busqueda--moderno .nav-link.active {
+  background: #4f46e5;
+  color: #ffffff;
+}
+
+.navbar-busqueda--moderno .dropdown-menu {
+  border: 0;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12);
+}
+
+/* El botón queda dentro del input: una sola píldora con la lupa a la derecha. */
+.navbar-busqueda--moderno .navbar-busqueda__form {
+  position: relative;
+}
+
+.navbar-busqueda--moderno .form-control {
+  margin: 0 !important;
+  padding-right: 2.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  background: #f9fafb;
+}
+
+.navbar-busqueda--moderno .form-control:focus {
+  border-color: #4f46e5;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.navbar-busqueda--moderno .btn {
+  position: absolute;
+  top: 50%;
+  right: 0.3rem;
+  display: flex;
+  padding: 0.4rem;
+  border: 0;
+  border-radius: 50%;
+  background: #4f46e5;
+  color: #ffffff;
+  transform: translateY(-50%);
+}
+
+.navbar-busqueda--moderno .btn:hover {
+  background: #372fb0;
+}
+
+.navbar-busqueda--moderno .navbar-busqueda__texto-boton {
+  display: none;
+}
+
+/* ---------- 3. Oscuro: fondo casi negro, acento cian y buscador subrayado ---------- */
+.navbar-busqueda--oscuro {
+  --acento: #22d3ee;
+  background: #0f172a;
+  border-bottom: 1px solid #1e293b;
+}
+
+.navbar-busqueda--oscuro .navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.navbar-busqueda--oscuro .nav-link {
+  position: relative;
+}
+
+.navbar-busqueda--oscuro .nav-link:hover,
+.navbar-busqueda--oscuro .nav-link.active {
+  color: var(--acento);
+}
+
+.navbar-busqueda--oscuro .dropdown-menu {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.navbar-busqueda--oscuro .dropdown-item:hover {
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--acento);
+}
+
+.navbar-busqueda--oscuro .form-control {
+  border: 0;
+  border-bottom: 2px solid #334155;
+  border-radius: 0;
+  background: transparent;
+  color: #e2e8f0;
+}
+
+.navbar-busqueda--oscuro .form-control:focus {
+  border-bottom-color: var(--acento);
+  box-shadow: none;
+}
+
+.navbar-busqueda--oscuro .btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  background: var(--acento);
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.navbar-busqueda--oscuro .btn:hover {
+  background: #67e8f9;
+  color: #0f172a;
+}
+
+/* En escritorio el subrayado cian marca el enlace activo. */
+@media (min-width: 992px) {
+  .navbar-busqueda--oscuro .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: -0.5rem;
+    height: 2px;
+    background: var(--acento);
+  }
+}

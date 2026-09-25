@@ -1,6 +1,9 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import "./basicRegistrer.css";
+import { validarPassword, validarVacios, type ErroresForm } from "../../FORMs/validarCamposForm";
+
+const OBLIGATORIOS = ["nombre", "apellidos", "email", "telefono", "usuario", "contrasena", "confirmarContrasena"];
 
 export interface BasicRegistrerData {
   nombre: string;
@@ -28,20 +31,39 @@ const INITIAL_DATA: BasicRegistrerData = {
 
 export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
   const [formData, setFormData] = useState<BasicRegistrerData>(INITIAL_DATA);
+  const [errores, setErrores] = useState<ErroresForm>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrores((prev) => ({ ...prev, [name]: undefined })); // el error se quita al corregir
   };
+
+  // Props de accesibilidad y mensaje de error de un campo.
+  const aria = (campo: string) => ({
+    "aria-invalid": !!errores[campo],
+    "aria-describedby": errores[campo] ? `${campo}-error` : undefined,
+  });
+  const error = (campo: string) =>
+    errores[campo] && <p id={`${campo}-error`} className="basic-registrer__error">{errores[campo]}</p>;
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const nuevos = validarVacios(formData, OBLIGATORIOS);
+    // Solo se comparan las contraseñas si la confirmación no está ya vacía.
+    nuevos.confirmarContrasena ??= validarPassword(formData.contrasena, formData.confirmarContrasena);
+    const primero = OBLIGATORIOS.find((campo) => nuevos[campo]);
+    if (primero) {
+      setErrores(nuevos);
+      (e.currentTarget.elements.namedItem(primero) as HTMLElement | null)?.focus();
+      return;
+    }
     onSubmit?.(formData);
     setFormData(INITIAL_DATA);
   };
 
   return (
-    <form className="basic-registrer" onSubmit={handleSubmit}>
+    <form className="basic-registrer" onSubmit={handleSubmit} noValidate>
       <h2 className="basic-registrer__title">Crear cuenta</h2>
 
       <fieldset className="basic-registrer__group">
@@ -57,8 +79,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.nombre}
             onChange={handleChange}
             autoComplete="given-name"
+            {...aria("nombre")}
             required
           />
+          {error("nombre")}
         </div>
 
         <div className="basic-registrer__field">
@@ -71,8 +95,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.apellidos}
             onChange={handleChange}
             autoComplete="family-name"
+            {...aria("apellidos")}
             required
           />
+          {error("apellidos")}
         </div>
       </fieldset>
 
@@ -89,8 +115,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.email}
             onChange={handleChange}
             autoComplete="email"
+            {...aria("email")}
             required
           />
+          {error("email")}
         </div>
 
         <div className="basic-registrer__field">
@@ -103,8 +131,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.telefono}
             onChange={handleChange}
             autoComplete="tel"
+            {...aria("telefono")}
             required
           />
+          {error("telefono")}
         </div>
       </fieldset>
 
@@ -121,8 +151,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.usuario}
             onChange={handleChange}
             autoComplete="username"
+            {...aria("usuario")}
             required
           />
+          {error("usuario")}
         </div>
 
         <div className="basic-registrer__field">
@@ -135,8 +167,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.contrasena}
             onChange={handleChange}
             autoComplete="new-password"
+            {...aria("contrasena")}
             required
           />
+          {error("contrasena")}
         </div>
 
         <div className="basic-registrer__field">
@@ -149,8 +183,10 @@ export function BasicRegistrer({ onSubmit }: BasicRegistrerProps) {
             value={formData.confirmarContrasena}
             onChange={handleChange}
             autoComplete="new-password"
+            {...aria("confirmarContrasena")}
             required
           />
+          {error("confirmarContrasena")}
         </div>
       </fieldset>
 

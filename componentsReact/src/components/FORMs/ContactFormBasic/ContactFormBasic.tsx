@@ -1,8 +1,11 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import "./ContactFormBasic.css";
-import { SelectorPais } from "../SelectorPais/SelectorPais";
-import { buscarPais } from "../SelectorPais/paises";
+import { SelectorPais } from "../../selectores/SelectorPais/SelectorPais";
+import { buscarPais } from "../../selectores/SelectorPais/paises";
+import { validarVacios, type ErroresForm } from "../validarCamposForm";
+
+const OBLIGATORIOS = ["nombre", "apellidos", "telefono", "direccion", "ciudad", "email"];
 
 export interface ContactFormData {
   nombre: string;
@@ -36,11 +39,21 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_DATA);
   // País de la bandera del prefijo (varios países comparten prefijo: +1, +7...).
   const [paisPrefijo, setPaisPrefijo] = useState(INITIAL_DATA.country);
+  const [errores, setErrores] = useState<ErroresForm>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrores((prev) => ({ ...prev, [name]: undefined })); // el error se quita al corregir
   };
+
+  // Props de accesibilidad y mensaje de error de un campo.
+  const aria = (campo: string) => ({
+    "aria-invalid": !!errores[campo],
+    "aria-describedby": errores[campo] ? `${campo}-error` : undefined,
+  });
+  const error = (campo: string) =>
+    errores[campo] && <p id={`${campo}-error`} className="contact-form__error">{errores[campo]}</p>;
 
   // Al elegir país, el prefijo del teléfono se pone el de ese país (se puede cambiar después).
   const handlePrefijo = (codigo: string) => {
@@ -55,13 +68,20 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
 
   const handleSubmit =(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const nuevos = validarVacios(formData, OBLIGATORIOS);
+    const primero = Object.keys(nuevos)[0];
+    if (primero) {
+      setErrores(nuevos);
+      (e.currentTarget.elements.namedItem(primero) as HTMLElement | null)?.focus();
+      return;
+    }
     onSubmit?.(formData);
     setFormData(INITIAL_DATA);
     setPaisPrefijo(INITIAL_DATA.country);
   };
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="contact-form__field">
         <label htmlFor="nombre">Nombre</label>
         <input
@@ -71,8 +91,10 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           placeholder="Ej.: María"
           value={formData.nombre}
           onChange={handleChange}
+          {...aria("nombre")}
           required
         />
+        {error("nombre")}
       </div>
 
       <div className="contact-form__field">
@@ -84,8 +106,10 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           placeholder="Ej.: García López"
           value={formData.apellidos}
           onChange={handleChange}
+          {...aria("apellidos")}
           required
         />
+        {error("apellidos")}
       </div>
 
       <div className="contact-form__field">
@@ -106,9 +130,11 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
             placeholder="Ej.: 600 123 456"
             value={formData.telefono}
             onChange={handleChange}
+            {...aria("telefono")}
             required
           />
         </div>
+        {error("telefono")}
       </div>
 
       <div className="contact-form__field">
@@ -120,8 +146,10 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           placeholder="Ej.: Calle Mayor 12, 3º B"
           value={formData.direccion}
           onChange={handleChange}
+          {...aria("direccion")}
           required
         />
+        {error("direccion")}
       </div>
 
       <div className="contact-form__field">
@@ -133,8 +161,10 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           placeholder="Ej.: Madrid"
           value={formData.ciudad}
           onChange={handleChange}
+          {...aria("ciudad")}
           required
         />
+        {error("ciudad")}
       </div>
 
       <div className="contact-form__field">
@@ -151,8 +181,10 @@ export function ContactFormBasic({ onSubmit }: ContactFormProps) {
           placeholder="Ej.: maria@correo.com"
           value={formData.email}
           onChange={handleChange}
+          {...aria("email")}
           required
         />
+        {error("email")}
       </div>
 
       <button type="submit" className="contact-form__submit">

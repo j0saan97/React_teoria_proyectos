@@ -65,6 +65,17 @@
   border-color: #4f46e5;
 }
 
+/* ---------- Validación: campo con error en rojo y mensaje debajo ---------- */
+.basic-registrer__field input[aria-invalid="true"] {
+  border-color: #dc2626;
+}
+
+.basic-registrer__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
 .basic-registrer__submit {
   margin-top: 0.25rem;
   padding: 0.7rem 1rem;

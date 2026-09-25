@@ -39,6 +39,17 @@
   border-color: #4f46e5;
 }
 
+/* ---------- Validación: campo con error en rojo y mensaje debajo ---------- */
+.contact-form__field input[aria-invalid="true"] {
+  border-color: #dc2626;
+}
+
+.contact-form__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
 /* ---------- Teléfono: prefijo + número en la misma fila ---------- */
 .contact-form__telefono {
   display: flex;

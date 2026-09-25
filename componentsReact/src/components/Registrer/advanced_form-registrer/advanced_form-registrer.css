@@ -69,6 +69,17 @@
   border-color: #4f46e5;
 }
 
+/* ---------- Validación: campo con error en rojo y mensaje debajo ---------- */
+.advanced-form-registrer__field input[aria-invalid="true"] {
+  border-color: #dc2626;
+}
+
+.advanced-form-registrer__error {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #dc2626;
+}
+
 .advanced-form-registrer__phone-row {
   display: grid;
   grid-template-columns: 7rem 1fr;

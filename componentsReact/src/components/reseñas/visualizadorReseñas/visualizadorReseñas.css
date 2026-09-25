@@ -1,0 +1,65 @@
+/* Difumina los bordes para que las tarjetas entren y salgan suavemente. */
+.visualizador-resenas {
+  mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+}
+
+/* La pista contiene la lista dos veces: moverla -50% equivale a una vuelta. */
+.visualizador-resenas__pista {
+  width: max-content;
+  animation: visualizador-resenas-mover linear infinite;
+}
+
+/* Se para mientras el ratón está encima de una tarjeta. */
+.visualizador-resenas__pista:has(.card:hover) {
+  animation-play-state: paused;
+}
+
+@keyframes visualizador-resenas-mover {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Ancho de tarjeta: 85% de la pantalla en móvil, hasta 380px en monitores grandes.
+   Se usa margin (no gap) para que el -50% cuadre exacto. */
+.visualizador-resenas__item {
+  width: min(85vw, clamp(260px, 20vw, 380px));
+  margin-right: 1rem;
+}
+
+.visualizador-resenas .card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.visualizador-resenas .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.12) !important;
+}
+
+.visualizador-resenas__inicial {
+  width: 40px;
+  height: 40px;
+}
+
+.visualizador-resenas__estrellas {
+  color: #fbbc04;
+  letter-spacing: 2px;
+}
+
+/* Máximo 4 líneas de texto por reseña. */
+.visualizador-resenas__texto {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Si el usuario pide menos movimiento, se quita la animación y se desliza a mano. */
+@media (prefers-reduced-motion: reduce) {
+  .visualizador-resenas {
+    overflow-x: auto !important;
+  }
+  .visualizador-resenas__pista {
+    animation: none;
+  }
+}

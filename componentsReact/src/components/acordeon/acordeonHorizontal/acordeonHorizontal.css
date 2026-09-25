@@ -1,0 +1,35 @@
+/* Apertura animada con grid: 0fr (cerrado) → 1fr (abierto). */
+.acordeon-horizontal__abrir {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease, grid-template-columns 0.35s ease;
+}
+
+.acordeon-horizontal__abrir[data-abierto="true"] {
+  grid-template-rows: 1fr;
+}
+
+/* Panel lateral (escritorio): se anima en ancho en lugar de en alto. */
+.acordeon-horizontal__lateral {
+  grid-template-rows: 1fr;
+  grid-template-columns: 0fr;
+}
+
+.acordeon-horizontal__lateral[data-abierto="true"] {
+  grid-template-columns: 1fr;
+}
+
+/* En escritorio la flecha apunta a la derecha (cerrado) y a la izquierda (abierto). */
+@media (min-width: 768px) {
+  .acordeon-horizontal .accordion {
+    width: var(--ancho-botones);
+  }
+
+  .acordeon-horizontal .accordion-button::after {
+    transform: rotate(-90deg);
+  }
+
+  .acordeon-horizontal .accordion-button:not(.collapsed)::after {
+    transform: rotate(90deg);
+  }
+}

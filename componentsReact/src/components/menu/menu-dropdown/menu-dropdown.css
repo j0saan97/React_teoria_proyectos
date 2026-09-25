@@ -1,0 +1,14 @@
+/* Resalta el elemento bajo el ratón (hover) o con el foco del teclado. */
+.menu-dropdown .nav-link:hover,
+.menu-dropdown .nav-link:focus-visible,
+.menu-dropdown .nav-link.show,
+.menu-dropdown .dropdown-item:hover,
+.menu-dropdown .dropdown-item:focus-visible {
+  background-color: var(--menu-hover, var(--bs-primary));
+  color: #fff;
+}
+
+.menu-dropdown .nav-link,
+.menu-dropdown .dropdown-item {
+  transition: background-color 0.15s, color 0.15s;
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BLOCKS, type BlockName, type Task } from '../types'
+import type { Block, BlockName, Task } from '../types'
 
 interface TaskEditChanges {
   text: string
@@ -9,6 +9,7 @@ interface TaskEditChanges {
 
 interface TaskItemProps {
   task: Task
+  blocks: Block[]
   isTopPriority: boolean
   onToggleComplete: (id: number) => void
   onDelete: (id: number) => void
@@ -17,6 +18,7 @@ interface TaskItemProps {
 
 function TaskItem({
   task,
+  blocks,
   isTopPriority,
   onToggleComplete,
   onDelete,
@@ -24,7 +26,11 @@ function TaskItem({
 }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [text, setText] = useState(task.text)
-  const [block, setBlock] = useState<BlockName>(task.block)
+  const [selectedBlock, setBlock] = useState<BlockName>(task.block)
+  // Si el bloque elegido se ha eliminado, volvemos al de la tarea
+  const block = blocks.some((b) => b.name === selectedBlock)
+    ? selectedBlock
+    : task.block
   const [importance, setImportance] = useState(task.importance)
 
   const handleSave = () => {
@@ -48,9 +54,9 @@ function TaskItem({
         <input value={text} onChange={(e) => setText(e.target.value)} />
         <select
           value={block}
-          onChange={(e) => setBlock(e.target.value as BlockName)}
+          onChange={(e) => setBlock(e.target.value)}
         >
-          {BLOCKS.map((b) => (
+          {blocks.map((b) => (
             <option key={b.name} value={b.name}>
               {b.name}
             </option>

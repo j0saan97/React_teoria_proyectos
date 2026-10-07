@@ -1,13 +1,18 @@
 import { useState, type FormEvent } from 'react'
-import { BLOCKS, type BlockName, type Task } from '../types'
+import type { Block, BlockName, Task } from '../types'
 
 interface TaskFormProps {
+  blocks: Block[]
   onAdd: (task: Omit<Task, 'id' | 'completed'>) => void
 }
 
-function TaskForm({ onAdd }: TaskFormProps) {
+function TaskForm({ blocks, onAdd }: TaskFormProps) {
   const [text, setText] = useState('')
-  const [block, setBlock] = useState<BlockName>(BLOCKS[0].name)
+  const [selectedBlock, setBlock] = useState<BlockName>(blocks[0].name)
+  // Si el bloque elegido se ha eliminado, volvemos al primero disponible
+  const block = blocks.some((b) => b.name === selectedBlock)
+    ? selectedBlock
+    : blocks[0].name
   const [importance, setImportance] = useState(1)
 
   const handleSubmit = (e: FormEvent) => {
@@ -30,9 +35,9 @@ function TaskForm({ onAdd }: TaskFormProps) {
       />
       <select
         value={block}
-        onChange={(e) => setBlock(e.target.value as BlockName)}
+        onChange={(e) => setBlock(e.target.value)}
       >
-        {BLOCKS.map((b) => (
+        {blocks.map((b) => (
           <option key={b.name} value={b.name}>
             {b.name}
           </option>
